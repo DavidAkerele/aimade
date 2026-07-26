@@ -25,7 +25,7 @@ export const FlavorsMenuStep: React.FC = () => {
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.98 }}
       transition={{ duration: 0.25 }}
-      className="w-full flex-1 flex flex-col justify-between space-y-4 overflow-hidden py-1"
+      className="w-full h-full flex flex-col justify-between space-y-3 overflow-hidden py-1"
     >
       {/* CAPSULE BAR FOR CATERING */}
       <div className="p-3 bg-white rounded-2xl border border-neutral-200/80 shadow-xs flex items-center justify-between gap-3 flex-shrink-0">
@@ -48,8 +48,8 @@ export const FlavorsMenuStep: React.FC = () => {
         </span>
       </div>
 
-      {/* FOOD PRODUCT CARDS */}
-      <div className="w-full flex-1 max-h-[calc(100vh-230px)] overflow-y-auto grid grid-cols-1 md:grid-cols-2 gap-3 pr-1">
+      {/* FOOD PRODUCT CARDS - FULL UNCONSTRAINED VERTICAL SCROLL */}
+      <div className="w-full flex-1 overflow-y-auto min-h-0 grid grid-cols-1 md:grid-cols-2 gap-3 pr-1 pb-4">
         {activeMenuItems.map((dish) => {
           const sel = flavorsSelections[dish.id] || { portion: "4L", quantity: 0 };
 
@@ -62,7 +62,7 @@ export const FlavorsMenuStep: React.FC = () => {
                   : "border-neutral-200/80 hover:border-neutral-300"
               }`}
             >
-              {/* Rounded Thumbnail with onError fallback */}
+              {/* Rounded Thumbnail */}
               <div className="w-20 h-20 rounded-xl overflow-hidden bg-neutral-100 flex-shrink-0 relative">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
@@ -135,7 +135,7 @@ export const FlavorsMenuStep: React.FC = () => {
       </div>
 
       {/* Navigation Footer */}
-      <div className="pt-2 border-t border-neutral-200/80 flex items-center justify-between flex-shrink-0">
+      <div className="pt-2 border-t border-neutral-200/80 flex items-center justify-between flex-shrink-0 bg-[#FAFAFC]">
         <button
           onClick={() => setCurrentStep(1)}
           className="px-4 py-2 rounded-xl border border-neutral-200 text-xs font-bold text-neutral-600 hover:bg-white flex items-center gap-1 cursor-pointer"
