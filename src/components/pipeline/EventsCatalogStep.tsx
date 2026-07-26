@@ -28,6 +28,8 @@ export const EventsCatalogStep: React.FC = () => {
     "Stoves & Ovens",
   ];
 
+  const defaultImg = "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=800&q=80";
+
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.98 }}
@@ -36,7 +38,7 @@ export const EventsCatalogStep: React.FC = () => {
       transition={{ duration: 0.25 }}
       className="w-full flex-1 flex flex-col justify-between space-y-4 overflow-hidden py-1"
     >
-      {/* SLEEK iOS/AIRBNB-STYLE FLOATING CAPSULE BAR */}
+      {/* FLOATING CAPSULE BAR */}
       <div className="p-3 bg-white rounded-2xl border border-neutral-200/80 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-3 flex-shrink-0">
         <div className="grid grid-cols-2 sm:flex sm:items-center gap-3 w-full sm:w-auto text-xs">
           <div className="flex flex-col">
@@ -90,7 +92,7 @@ export const EventsCatalogStep: React.FC = () => {
       {/* PRODUCT CATALOG SECTION */}
       <div className="w-full flex-1 max-h-[calc(100vh-230px)] overflow-y-auto space-y-4 pr-1">
         {categories.map((cat) => {
-          const catItems = equipmentItems.filter((i) => i.category === cat);
+          const catItems = equipmentItems.filter((i) => i.category === cat && i.active !== false);
           if (catItems.length === 0) return null;
 
           return (
@@ -111,11 +113,14 @@ export const EventsCatalogStep: React.FC = () => {
                           : "border-neutral-200/80 hover:border-neutral-300"
                       }`}
                     >
-                      {/* Rounded Thumbnail */}
+                      {/* Rounded Thumbnail with onError fallback */}
                       <div className="w-18 h-18 rounded-xl overflow-hidden bg-neutral-100 flex-shrink-0 relative">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
-                          src={item.image}
+                          src={item.image || defaultImg}
+                          onError={(e) => {
+                            e.currentTarget.src = defaultImg;
+                          }}
                           alt={item.name}
                           className="w-full h-full object-cover"
                         />

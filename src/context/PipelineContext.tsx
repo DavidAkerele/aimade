@@ -12,6 +12,7 @@ export interface EquipmentItem {
   unitPrice: number;
   specs: string;
   image: string;
+  active?: boolean;
 }
 
 export interface DishItem {
@@ -21,6 +22,7 @@ export interface DishItem {
   description: string;
   unitPricePerLitre: number;
   image: string;
+  active?: boolean;
 }
 
 export interface FlavorSelection {
@@ -37,13 +39,26 @@ export interface ContactInfo {
   notes: string;
 }
 
+export interface LandingSettings {
+  eventsTitle: string;
+  eventsSubtitle: string;
+  eventsImage: string;
+  flavorsTitle: string;
+  flavorsSubtitle: string;
+  flavorsImage: string;
+}
+
 interface PipelineContextType {
   activeVertical: VerticalType;
   setActiveVertical: (vertical: VerticalType) => void;
   currentStep: number;
   setCurrentStep: (step: number) => void;
 
+  // Equipment CMS
   equipmentItems: EquipmentItem[];
+  updateEquipmentItem: (id: string, updated: Partial<EquipmentItem>) => void;
+  addEquipmentItem: (item: Omit<EquipmentItem, "id">) => void;
+  deleteEquipmentItem: (id: string) => void;
   eventsInventory: Record<string, number>;
   setEventsInventoryQty: (id: string, qty: number) => void;
   startDate: string;
@@ -53,11 +68,19 @@ interface PipelineContextType {
   location: string;
   setLocation: (loc: string) => void;
 
+  // Catering CMS
   menuItems: DishItem[];
+  updateDishItem: (id: string, updated: Partial<DishItem>) => void;
+  addDishItem: (dish: Omit<DishItem, "id">) => void;
+  deleteDishItem: (id: string) => void;
   flavorsSelections: Record<string, FlavorSelection>;
   setFlavorSelection: (dishId: string, selection: Partial<FlavorSelection>) => void;
   fulfillmentDate: string;
   setFulfillmentDate: (date: string) => void;
+
+  // Landing Content CMS
+  landingSettings: LandingSettings;
+  setLandingSettings: React.Dispatch<React.SetStateAction<LandingSettings>>;
 
   contactInfo: ContactInfo;
   setContactInfo: React.Dispatch<React.SetStateAction<ContactInfo>>;
@@ -80,6 +103,7 @@ export const INITIAL_EQUIPMENT_CATALOG: EquipmentItem[] = [
     unitPrice: 35000,
     specs: "20x20ft • Seats 50",
     image: "/images/canopy-20x20.png",
+    active: true,
   },
   {
     id: "canopy-20x40",
@@ -89,6 +113,7 @@ export const INITIAL_EQUIPMENT_CATALOG: EquipmentItem[] = [
     unitPrice: 75000,
     specs: "20x40ft • Seats 100",
     image: "/images/canopy-20x20.png",
+    active: true,
   },
   {
     id: "chair-chiavari",
@@ -98,6 +123,7 @@ export const INITIAL_EQUIPMENT_CATALOG: EquipmentItem[] = [
     unitPrice: 18000,
     specs: "Per dozen (12 chairs)",
     image: "/images/chair-chiavari.png",
+    active: true,
   },
   {
     id: "chair-plastic",
@@ -107,6 +133,7 @@ export const INITIAL_EQUIPMENT_CATALOG: EquipmentItem[] = [
     unitPrice: 6000,
     specs: "Per dozen (12 chairs)",
     image: "https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&w=800&q=80",
+    active: true,
   },
   {
     id: "table-round",
@@ -116,6 +143,7 @@ export const INITIAL_EQUIPMENT_CATALOG: EquipmentItem[] = [
     unitPrice: 5000,
     specs: "6ft Round • Seats 10",
     image: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=800&q=80",
+    active: true,
   },
   {
     id: "table-rect",
@@ -125,6 +153,7 @@ export const INITIAL_EQUIPMENT_CATALOG: EquipmentItem[] = [
     unitPrice: 4000,
     specs: "6ft x 2.5ft Foldout",
     image: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=80",
+    active: true,
   },
   {
     id: "pot-100l",
@@ -134,6 +163,7 @@ export const INITIAL_EQUIPMENT_CATALOG: EquipmentItem[] = [
     unitPrice: 12000,
     specs: "100 Litres Capacity",
     image: "/images/pot-100l.png",
+    active: true,
   },
   {
     id: "pot-200l",
@@ -143,6 +173,7 @@ export const INITIAL_EQUIPMENT_CATALOG: EquipmentItem[] = [
     unitPrice: 20000,
     specs: "200 Litres Capacity",
     image: "/images/pot-100l.png",
+    active: true,
   },
   {
     id: "pans-spoons",
@@ -152,6 +183,7 @@ export const INITIAL_EQUIPMENT_CATALOG: EquipmentItem[] = [
     unitPrice: 4500,
     specs: "2 Pans, Ladles & Stick",
     image: "https://images.unsplash.com/photo-1590794056226-77ef3a8147e1?auto=format&fit=crop&w=800&q=80",
+    active: true,
   },
   {
     id: "stove-gas",
@@ -161,6 +193,7 @@ export const INITIAL_EQUIPMENT_CATALOG: EquipmentItem[] = [
     unitPrice: 15000,
     specs: "Double Burner",
     image: "https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?auto=format&fit=crop&w=800&q=80",
+    active: true,
   },
   {
     id: "oven-gas",
@@ -170,6 +203,7 @@ export const INITIAL_EQUIPMENT_CATALOG: EquipmentItem[] = [
     unitPrice: 25000,
     specs: "2-Tray Oven",
     image: "https://images.unsplash.com/photo-1585515320310-259814833e62?auto=format&fit=crop&w=800&q=80",
+    active: true,
   },
   {
     id: "water-tub",
@@ -179,6 +213,7 @@ export const INITIAL_EQUIPMENT_CATALOG: EquipmentItem[] = [
     unitPrice: 8000,
     specs: "200L Insulated Tub",
     image: "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=800&q=80",
+    active: true,
   },
 ];
 
@@ -190,6 +225,7 @@ export const INITIAL_MENU_CATALOG: DishItem[] = [
     description: "Smoky Jollof rice, plantain & chicken.",
     unitPricePerLitre: 5500,
     image: "/images/jollof-rice.png",
+    active: true,
   },
   {
     id: "afang-soup",
@@ -198,6 +234,7 @@ export const INITIAL_MENU_CATALOG: DishItem[] = [
     description: "Wild okazi, stockfish & assorted meat.",
     unitPricePerLitre: 7000,
     image: "/images/afang-soup.png",
+    active: true,
   },
   {
     id: "ayamasi-stew",
@@ -206,6 +243,7 @@ export const INITIAL_MENU_CATALOG: DishItem[] = [
     description: "Green pepper stew, eggs & ponmo.",
     unitPricePerLitre: 7500,
     image: "/images/ayamasi-stew.png",
+    active: true,
   },
   {
     id: "ewa-aganyin",
@@ -214,6 +252,7 @@ export const INITIAL_MENU_CATALOG: DishItem[] = [
     description: "Mashed beans & spicy onion sauce.",
     unitPricePerLitre: 4500,
     image: "/images/ewa-aganyin.png",
+    active: true,
   },
 ];
 
@@ -222,6 +261,18 @@ const PipelineContext = createContext<PipelineContextType | undefined>(undefined
 export const PipelineContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [activeVertical, setActiveVertical] = useState<VerticalType>("EVENTS");
   const [currentStep, setCurrentStep] = useState<number>(1);
+
+  const [equipmentItems, setEquipmentItems] = useState<EquipmentItem[]>(INITIAL_EQUIPMENT_CATALOG);
+  const [menuItems, setMenuItems] = useState<DishItem[]>(INITIAL_MENU_CATALOG);
+
+  const [landingSettings, setLandingSettings] = useState<LandingSettings>({
+    eventsTitle: "Equipment & Event Rentals",
+    eventsSubtitle: "20x20ft canopies, Chiavari chairs (sold in dozens), banquet tables, 100L/200L drums & stoves.",
+    eventsImage: "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=1400&q=80",
+    flavorsTitle: "Culinary Food Catering",
+    flavorsSubtitle: "Firewood Jollof rice, authentic Afang soup, Ayamasi stew & Ewa Aganyin by 2L, 4L, 8L, 10L or custom litres.",
+    flavorsImage: "https://images.unsplash.com/photo-1604329760661-e71dc83f8f26?auto=format&fit=crop&w=1400&q=80",
+  });
 
   const [eventsInventory, setEventsInventory] = useState<Record<string, number>>({});
   const [startDate, setStartDate] = useState<string>("2026-07-27");
@@ -238,6 +289,46 @@ export const PipelineContextProvider: React.FC<{ children: React.ReactNode }> = 
     address: "",
     notes: "",
   });
+
+  // Equipment CRUD
+  const updateEquipmentItem = (id: string, updated: Partial<EquipmentItem>) => {
+    setEquipmentItems((prev) =>
+      prev.map((item) => (item.id === id ? { ...item, ...updated } : item))
+    );
+  };
+
+  const addEquipmentItem = (item: Omit<EquipmentItem, "id">) => {
+    const newItem: EquipmentItem = {
+      ...item,
+      id: `custom-eq-${Date.now()}`,
+      active: true,
+    };
+    setEquipmentItems((prev) => [...prev, newItem]);
+  };
+
+  const deleteEquipmentItem = (id: string) => {
+    setEquipmentItems((prev) => prev.filter((item) => item.id !== id));
+  };
+
+  // Catering CRUD
+  const updateDishItem = (id: string, updated: Partial<DishItem>) => {
+    setMenuItems((prev) =>
+      prev.map((dish) => (dish.id === id ? { ...dish, ...updated } : dish))
+    );
+  };
+
+  const addDishItem = (dish: Omit<DishItem, "id">) => {
+    const newDish: DishItem = {
+      ...dish,
+      id: `custom-dish-${Date.now()}`,
+      active: true,
+    };
+    setMenuItems((prev) => [...prev, newDish]);
+  };
+
+  const deleteDishItem = (id: string) => {
+    setMenuItems((prev) => prev.filter((dish) => dish.id !== id));
+  };
 
   const getDays = (start: string, end: string) => {
     if (!start || !end) return 1;
@@ -269,12 +360,12 @@ export const PipelineContextProvider: React.FC<{ children: React.ReactNode }> = 
     });
   };
 
-  const equipmentSubtotal = INITIAL_EQUIPMENT_CATALOG.reduce((sum, item) => {
+  const equipmentSubtotal = equipmentItems.reduce((sum, item) => {
     const qty = eventsInventory[item.id] || 0;
     return sum + item.unitPrice * qty * rentalDaysCount;
   }, 0);
 
-  const cateringSubtotal = INITIAL_MENU_CATALOG.reduce((sum, dish) => {
+  const cateringSubtotal = menuItems.reduce((sum, dish) => {
     const sel = flavorsSelections[dish.id];
     if (!sel || sel.quantity <= 0) return sum;
     let litres = 4;
@@ -306,7 +397,10 @@ export const PipelineContextProvider: React.FC<{ children: React.ReactNode }> = 
         setActiveVertical,
         currentStep,
         setCurrentStep,
-        equipmentItems: INITIAL_EQUIPMENT_CATALOG,
+        equipmentItems,
+        updateEquipmentItem,
+        addEquipmentItem,
+        deleteEquipmentItem,
         eventsInventory,
         setEventsInventoryQty,
         startDate,
@@ -315,11 +409,16 @@ export const PipelineContextProvider: React.FC<{ children: React.ReactNode }> = 
         setEndDate,
         location,
         setLocation,
-        menuItems: INITIAL_MENU_CATALOG,
+        menuItems,
+        updateDishItem,
+        addDishItem,
+        deleteDishItem,
         flavorsSelections,
         setFlavorSelection,
         fulfillmentDate,
         setFulfillmentDate,
+        landingSettings,
+        setLandingSettings,
         contactInfo,
         setContactInfo,
         rentalDaysCount,

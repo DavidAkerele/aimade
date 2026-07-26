@@ -1,24 +1,22 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans, Inter } from "next/font/google";
+import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
+import { PipelineContextProvider } from "@/context/PipelineContext";
 import { AppContextProvider } from "@/context/AppContext";
-import { QuoteDrawer } from "@/components/QuoteDrawer";
-
-const jakarta = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-  variable: "--font-jakarta",
-  display: "swap",
-});
 
 const inter = Inter({
-  subsets: ["latin"],
   variable: "--font-inter",
-  display: "swap",
+  subsets: ["latin"],
+});
+
+const plusJakartaSans = Plus_Jakarta_Sans({
+  variable: "--font-plus-jakarta",
+  subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: "Aimade — Interactive Service, Quote & Paystack Pipeline",
-  description: "Streamlined interactive questionnaire for Aimade Events equipment rentals, culinary catering, and Care Foundation sponsorship.",
+  title: "Aimade — Dynamic Events & Catering Pipeline",
+  description: "Configure equipment rentals & authentic culinary catering orders with real-time quotes.",
 };
 
 export default function RootLayout({
@@ -27,11 +25,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${jakarta.variable} ${inter.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col bg-slate-950 text-slate-100 selection:bg-emerald-500 selection:text-white">
+    <html lang="en">
+      <body
+        className={`${inter.variable} ${plusJakartaSans.variable} antialiased bg-[#FAFAFC] text-neutral-900 overflow-x-hidden`}
+      >
         <AppContextProvider>
-          <main className="flex-1 w-full min-h-screen">{children}</main>
-          <QuoteDrawer />
+          <PipelineContextProvider>{children}</PipelineContextProvider>
         </AppContextProvider>
       </body>
     </html>

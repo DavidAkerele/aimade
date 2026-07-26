@@ -15,6 +15,10 @@ export const FlavorsMenuStep: React.FC = () => {
     setCurrentStep,
   } = usePipeline();
 
+  const defaultDishImg = "https://images.unsplash.com/photo-1604329760661-e71dc83f8f26?auto=format&fit=crop&w=800&q=80";
+
+  const activeMenuItems = menuItems.filter((m) => m.active !== false);
+
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.98 }}
@@ -23,7 +27,7 @@ export const FlavorsMenuStep: React.FC = () => {
       transition={{ duration: 0.25 }}
       className="w-full flex-1 flex flex-col justify-between space-y-4 overflow-hidden py-1"
     >
-      {/* REDESIGNED CAPSULE BAR FOR CATERING */}
+      {/* CAPSULE BAR FOR CATERING */}
       <div className="p-3 bg-white rounded-2xl border border-neutral-200/80 shadow-xs flex items-center justify-between gap-3 flex-shrink-0">
         <div className="flex items-center gap-2 text-xs">
           <div className="flex flex-col">
@@ -44,9 +48,9 @@ export const FlavorsMenuStep: React.FC = () => {
         </span>
       </div>
 
-      {/* REDESIGNED FOOD PRODUCT CARDS */}
+      {/* FOOD PRODUCT CARDS */}
       <div className="w-full flex-1 max-h-[calc(100vh-230px)] overflow-y-auto grid grid-cols-1 md:grid-cols-2 gap-3 pr-1">
-        {menuItems.map((dish) => {
+        {activeMenuItems.map((dish) => {
           const sel = flavorsSelections[dish.id] || { portion: "4L", quantity: 0 };
 
           return (
@@ -58,11 +62,14 @@ export const FlavorsMenuStep: React.FC = () => {
                   : "border-neutral-200/80 hover:border-neutral-300"
               }`}
             >
-              {/* Rounded Thumbnail */}
+              {/* Rounded Thumbnail with onError fallback */}
               <div className="w-20 h-20 rounded-xl overflow-hidden bg-neutral-100 flex-shrink-0 relative">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={dish.image}
+                  src={dish.image || defaultDishImg}
+                  onError={(e) => {
+                    e.currentTarget.src = defaultDishImg;
+                  }}
                   alt={dish.name}
                   className="w-full h-full object-cover"
                 />
