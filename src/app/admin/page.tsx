@@ -21,7 +21,6 @@ import {
   ExternalLink,
   Phone,
   Mail,
-  User,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -193,9 +192,9 @@ export default function AdminCMSPage() {
   }
 
   return (
-    <div className="w-full min-h-screen bg-[#F8F9FA] text-neutral-900 font-sans flex flex-col justify-between select-none">
-      {/* Top Admin Header - Fully Mobile Responsive */}
-      <div className="w-full bg-[#0A2540] text-white py-3 px-4 sm:px-6 border-b border-blue-900 flex items-center justify-between flex-shrink-0 shadow-sm">
+    <div className="w-full min-h-screen bg-[#F8F9FA] text-neutral-900 font-sans flex flex-col overflow-y-auto overflow-x-hidden">
+      {/* Sticky Top Admin Header */}
+      <div className="w-full bg-[#0A2540] text-white py-3 px-4 sm:px-6 border-b border-blue-900 flex items-center justify-between flex-shrink-0 shadow-sm sticky top-0 z-30">
         <div className="flex items-center gap-2">
           <Link href="/" className="font-heading font-extrabold text-lg sm:text-xl tracking-tight text-white flex items-center gap-1.5">
             <ShieldCheck className="w-5 h-5 text-emerald-400" /> Aimade CMS
@@ -222,8 +221,8 @@ export default function AdminCMSPage() {
         </div>
       </div>
 
-      {/* Admin Navigation Tabs Bar - Scrollable for Mobile */}
-      <div className="w-full bg-white border-b border-neutral-200/80 px-3 sm:px-6 py-2 flex items-center gap-2 overflow-x-auto whitespace-nowrap scrollbar-none flex-shrink-0">
+      {/* Sticky Admin Navigation Tabs Bar */}
+      <div className="w-full bg-white border-b border-neutral-200/80 px-3 sm:px-6 py-2 flex items-center gap-2 overflow-x-auto whitespace-nowrap scrollbar-none flex-shrink-0 sticky top-[49px] z-20 shadow-2xs">
         <button
           onClick={() => setActiveTab("LEADS")}
           className={`px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs font-extrabold flex items-center gap-1.5 transition-all cursor-pointer ${
@@ -269,8 +268,8 @@ export default function AdminCMSPage() {
         </button>
       </div>
 
-      {/* Main Content Area */}
-      <div className="w-full max-w-6xl mx-auto flex-1 p-3 sm:p-6 overflow-y-auto">
+      {/* Main Content Area - Unconstrained Vertical Scrolling */}
+      <div className="w-full max-w-6xl mx-auto flex-1 p-3 sm:p-6 pb-20 overflow-y-visible">
         {/* TAB 1: CUSTOMER ORDERS & PAYSTACK LEADS */}
         {activeTab === "LEADS" && (
           <div className="space-y-4">
@@ -292,7 +291,7 @@ export default function AdminCMSPage() {
               </div>
             </div>
 
-            {/* Mobile Card Layout for Leads (visible on mobile < 640px) */}
+            {/* Mobile Card Layout for Leads */}
             <div className="block sm:hidden space-y-3">
               {filteredLeads.map((lead) => (
                 <div key={lead.id} className="bg-white rounded-2xl p-4 border border-neutral-200/80 shadow-xs space-y-2 text-xs">
@@ -324,7 +323,7 @@ export default function AdminCMSPage() {
               ))}
             </div>
 
-            {/* Desktop Table View (visible on screens >= 640px) */}
+            {/* Desktop Table View */}
             <div className="hidden sm:block bg-white rounded-2xl border border-neutral-200/80 overflow-hidden shadow-xs">
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-xs">
@@ -588,7 +587,7 @@ export default function AdminCMSPage() {
         )}
       </div>
 
-      {/* EDIT EQUIPMENT INLINE MODAL - Mobile Drawer Friendly */}
+      {/* EDIT EQUIPMENT INLINE MODAL */}
       {editingEq && (
         <div className="fixed inset-0 bg-neutral-950/60 backdrop-blur-xs z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
           <div className="w-full max-w-md bg-white rounded-t-3xl sm:rounded-3xl p-6 shadow-2xl space-y-4 text-xs max-h-[90vh] overflow-y-auto">
