@@ -14,9 +14,8 @@ import {
   Tent,
   Utensils,
   CheckCircle2,
-  Clock,
-  Layout,
   Package,
+  Layout,
   ArrowLeft,
   ExternalLink,
   Phone,
@@ -192,7 +191,7 @@ export default function AdminCMSPage() {
   }
 
   return (
-    <div className="w-full min-h-screen bg-[#F8F9FA] text-neutral-900 font-sans flex flex-col overflow-y-auto overflow-x-hidden">
+    <div className="w-full min-h-screen h-auto bg-[#F8F9FA] text-neutral-900 font-sans flex flex-col overflow-y-auto overflow-x-hidden">
       {/* Sticky Top Admin Header */}
       <div className="w-full bg-[#0A2540] text-white py-3 px-4 sm:px-6 border-b border-blue-900 flex items-center justify-between flex-shrink-0 shadow-sm sticky top-0 z-30">
         <div className="flex items-center gap-2">
@@ -268,8 +267,8 @@ export default function AdminCMSPage() {
         </button>
       </div>
 
-      {/* Main Content Area - Unconstrained Vertical Scrolling */}
-      <div className="w-full max-w-6xl mx-auto flex-1 p-3 sm:p-6 pb-20 overflow-y-visible">
+      {/* Main Content Area - Fully Mobile Scrollable */}
+      <div className="w-full max-w-6xl mx-auto flex-1 p-3 sm:p-6 pb-24 overflow-y-auto touch-pan-y">
         {/* TAB 1: CUSTOMER ORDERS & PAYSTACK LEADS */}
         {activeTab === "LEADS" && (
           <div className="space-y-4">
